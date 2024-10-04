@@ -6,17 +6,18 @@ import { Role } from "./roles"
 type PermissionsByRole = (user:User, builder: AbilityBuilder<AppAbility>) => void
 
 export const permissions: Record<Role, PermissionsByRole> = {
-  ADMIN(_, {can}) {
+  ADMIN(user, {can, cannot}) {
     can('manage', 'all')
+    cannot('transfer_ownership', 'Organization')
+    can(['transfer_ownership', 'update'], 'Organization', { ownerId: {$eq: user.id}})
     
   },
   MEMBER(user, {can}) {
-    // can('invite', 'User')
+    can('get', 'User')
     can(['create', 'get'], 'Project')
-    can(['update', 'delete'], 'Project', {ownerId: {$eq: user.id}})
+    can(['update', 'delete'], 'Project', { ownerId: {$eq: user.id}})
   },
   BILLING(_, {can}) {
-    // can('view', 'Project')
-    // can('edit', 'Project')
+    can('manage', 'Billing')
   },
 }
