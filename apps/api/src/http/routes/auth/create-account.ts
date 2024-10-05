@@ -25,14 +25,27 @@ export async function createAccount(app: FastifyInstance){
       return reply.status(400).send({message: 'user with same email already exists'})
     }
 
+    const [, domain] = email.split('@')
+    const autoJoinOrganization = await prisma.organization.findFirst({
+      where:{
+        domain,
+        shouldAttachUserByDomain: true
+      }
+    })
+
     const passwordHash = await hash(password, 6)
 
     await prisma.user.create({
       data:{
         name,
         email,
-        passwordHash
-      }
+        passwordHash,
+        member_on: autoJoinOrganization ? {
+          create: {
+            organizationId: autoJoinOrganization.id
+          },
+        } : undefined,
+      },
     })
     return reply.status(201).send()
   })
