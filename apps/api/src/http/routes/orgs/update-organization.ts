@@ -4,14 +4,12 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { BadRequestError } from "../__errors/bad-request-error";
-import { createSlug } from "@/utils/create-slug";
-import { defineAbilityFor, organizationSchema, userSchema } from "@saas/auth";
-import { Role } from "@prisma/client";
+import { organizationSchema } from "@saas/auth";
 import { UnauthorizedError } from "../__errors/unauthorized-error";
 import { getUserPermissions } from "@/utils/get-user-permission";
 
 export async function updateOrganization(app:FastifyInstance){
-  app.withTypeProvider<ZodTypeProvider>().register(auth).post('/organizations/:slug', {
+  app.withTypeProvider<ZodTypeProvider>().register(auth).put('/organizations/:slug', {
     schema:{
       tags: ['organization'],
       summary: 'Update organization details',
