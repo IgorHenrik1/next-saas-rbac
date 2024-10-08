@@ -42,6 +42,7 @@ export async function createProject(app:FastifyInstance){
       const project = await prisma.project.create({
         data: {
           name,
+          slug: createSlug(name),
           description,
           organizationId: organization.id,
           ownerId: userId

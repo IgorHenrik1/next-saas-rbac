@@ -122,7 +122,7 @@ model Project {
   id          String   @id @default(uuid())
   name        String
   description String
-  slug        String?  @unique
+  slug        String   @unique
   avatarUrl   String?  @map("avatar_url")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
