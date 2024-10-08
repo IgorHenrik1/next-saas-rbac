@@ -30,6 +30,7 @@ import { getProject } from "./routes/project/get-project";
 import { getProjects } from "./routes/project/get-projects";
 import { updateProject } from "./routes/project/update-project";
 import { getMembers } from "./routes/members/get-members";
+import { updateMembers } from "./routes/members/update-member";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 app.setSerializerCompiler(serializerCompiler)
@@ -85,6 +86,7 @@ app.register(getProjects)
 app.register(updateProject)
 
 app.register(getMembers)
+app.register(updateMembers)
 app.listen({port: env.SERVER_PORT}).then(() => {
   console.log('Server is running on port 3333')
 })
