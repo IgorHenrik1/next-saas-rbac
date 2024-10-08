@@ -1,4 +1,4 @@
-import {fastify} from "fastify";
+import { fastify } from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
@@ -8,7 +8,7 @@ import {
   serializerCompiler,
   validatorCompiler,
   ZodTypeProvider
-} from 'fastify-type-provider-zod'
+} from 'fastify-type-provider-zod';
 import { createAccount } from "./routes/auth/create-account";
 import { authenticateWithPassword } from "./routes/auth/authenticate-with-password";
 import { getProfile } from "./routes/auth/get-profile";
@@ -28,6 +28,8 @@ import { createProject } from "./routes/project/create-project";
 import { deleteProject } from "./routes/project/delete-project";
 import { getProject } from "./routes/project/get-project";
 import { getProjects } from "./routes/project/get-projects";
+import { updateProject } from "./routes/project/update-project";
+import { getMembers } from "./routes/members/get-members";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 app.setSerializerCompiler(serializerCompiler)
@@ -80,6 +82,9 @@ app.register(createProject)
 app.register(deleteProject)
 app.register(getProject)
 app.register(getProjects)
+app.register(updateProject)
+
+app.register(getMembers)
 app.listen({port: env.SERVER_PORT}).then(() => {
   console.log('Server is running on port 3333')
 })
