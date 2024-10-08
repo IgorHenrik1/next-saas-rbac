@@ -5,32 +5,26 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { getUserPermissions } from "@/utils/get-user-permission";
 import { UnauthorizedError } from "../__errors/unauthorized-error";
+import { roleSchema } from "@saas/auth";
 
-export async function getProjects(app:FastifyInstance){
-  app.withTypeProvider<ZodTypeProvider>().register(auth).get('/organizations/:slug/projects', {
+export async function getMembers(app:FastifyInstance){
+  app.withTypeProvider<ZodTypeProvider>().register(auth).get('/organizations/:slug/members', {
     schema:{
-      tags: ['project'],
-      summary: 'Get all organization projects',
+      tags: ['members'],
+      summary: 'Get all organization members',
       security: [{bearerAuth: []}],
       params: z.object({
         slug: z.string(),
       }),
       response:{
         200: z.object({
-          projects: z.array(z.object({
+          members: z.array(z.object({
+            userId: z.string().uuid(),
             id: z.string().uuid(),
-            description: z.string(),
-            name: z.string(),
-            slug: z.string(),
+            role: roleSchema,
+            name: z.string().nullable(),
             avatarUrl: z.string().url().nullable(),
-            organizationId: z.string().uuid(),
-            ownerId: z.string().uuid(),
-            createdAt: z.date(),
-            owner: z.object({
-              id: z.string().uuid(),
-              name: z.string().nullable(),
-              avatarUrl: z.string().url().nullable()
-            })
+            email: z.string().email(),
           }))
         })
       }
@@ -41,25 +35,21 @@ export async function getProjects(app:FastifyInstance){
       const {organization, membership} = await request.getUserMembership(slug);
       const {cannot} = getUserPermissions(userId, membership.role)
 
-      if(cannot('get', 'Project')){
-        throw new UnauthorizedError(`You're not allowed to see organization projects.`)
+      if(cannot('get', 'User')){
+        throw new UnauthorizedError(`You're not allowed to see organization members.`)
       }
 
-      const projects = await prisma.project.findMany({
+      const members = await prisma.member.findMany({
         select:{
           id: true,
-          name: true,
-          description: true,
-          slug: true,
-          ownerId: true,
-          avatarUrl: true,
-          organizationId: true,
-          createdAt: true,
-          owner: {
-            select: {
+          role: true,
+          user:{
+            select:{
               id: true,
               name: true,
-              avatarUrl: true
+              email: true,
+              avatarUrl: true,
+    
             }
           }
         },
@@ -67,13 +57,21 @@ export async function getProjects(app:FastifyInstance){
           organizationId: organization.id,
         },
         orderBy: {
-          createdAt: 'desc',
+          role: 'asc',
+        }
+      })
+
+      const membersWithRoles = members.map(({user: {id: userId, ...user}, ...member}) => {
+        return{
+          ...user,
+          ...member,
+          userId
         }
       })
 
      
       return reply.send({
-        projects
+        members: membersWithRoles
       })
     },
   )
