@@ -11,10 +11,17 @@ import { signInWithEmailAndPassword } from "./actions";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useFormState } from "@/hook/use-form-state";
+import { useRouter } from "next/navigation";
 
 export function SignInForm(){
-  // const [{success, message, errors}, formAction, isPending] = useActionState(signInWithEmailAndPassword, {success: false, message: null,  errors: null})
-  const [{success, message, errors}, handleSubmit, isPending] = useFormState(signInWithEmailAndPassword)
+  const router = useRouter()
+
+  const [{success, message, errors }, handleSubmit, isPending] = useFormState(
+    signInWithEmailAndPassword,
+    () => {
+      router.push('/')
+    }
+  )
   
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
