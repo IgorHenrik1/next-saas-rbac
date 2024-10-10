@@ -9,7 +9,7 @@ const signInSchema = z.object({
 
 import { signInWithPassword } from '@/http/sign-in-with-password'
 import { HTTPError } from 'ky'
-export async function signInWithEmailAndPassword(_: unknown,data: FormData) {
+export async function signInWithEmailAndPassword(data: FormData) {
 
   const result = signInSchema.safeParse(Object.fromEntries(data))
 
