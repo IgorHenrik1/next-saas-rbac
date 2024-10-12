@@ -9,7 +9,6 @@ const signInSchema = z.object({
   email: z.string().email({message: 'Please, provide a valid e-mail address.'}),
   password: z.string().min(1, {message: 'Please, provide your password.'}),
 })
-
 export async function signInWithEmailAndPassword(data: FormData) {
 
   const result = signInSchema.safeParse(Object.fromEntries(data))
@@ -34,7 +33,7 @@ export async function signInWithEmailAndPassword(data: FormData) {
       return { success: false, message, errors: null}
     }
     console.error(err)
-    return { success: false, message: 'unexpected errpr, try again in a few minutes', errors: null}
+    return { success: false, message: 'unexpected error, try again in a few minutes', errors: null}
   }
 
   return { success: true, message: null, errors: null}
