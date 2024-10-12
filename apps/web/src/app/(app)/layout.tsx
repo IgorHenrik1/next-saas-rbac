@@ -3,15 +3,20 @@ import { Header } from '@/components/header'
 import { redirect } from 'next/navigation'
 
 export default async function AppLayout({
-  children,
+  sheet,
+  children
 }: Readonly<{
   children: React.ReactNode
+  sheet: React.ReactNode
 }>) {
   if (!isAuthenticated()) {
     redirect('/auth/sign-in')
   }
 
   return (
-    <div>{children}</div>
+    <>
+      {children}
+      {sheet}
+    </>
   )
 }
