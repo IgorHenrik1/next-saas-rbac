@@ -7,6 +7,7 @@ import { ability } from '@/auth/auth'
 import { permission } from 'process'
 import { Separator } from './ui/separator'
 import { ThemeSwitcher } from './theme/theme-switcher'
+import { ProjectSwitcher } from './project-switcher'
 export async function Header() {
   const permissions = await ability()
   return (
@@ -19,7 +20,12 @@ export async function Header() {
         />
         <Slash className="size-3 -rotate-[24deg] text-border" />
         <OrganizationSwitcher />
-        {permissions?.can('get', 'Project') && <p>Projetos</p>}
+        {permissions?.can('get', 'Project') && (
+          <>
+          <Slash className="size-3 -rotate-[24deg] text-border" />  
+          <ProjectSwitcher />
+          </>
+        )}
       </div>
       <div className="flex items-center gap-4">
         <ThemeSwitcher />
