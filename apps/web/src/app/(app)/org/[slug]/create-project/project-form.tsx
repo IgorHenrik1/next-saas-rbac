@@ -5,17 +5,23 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormState } from "@/hook/use-form-state";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { createProjectAction } from "./action";
 import { Textarea } from "@/components/ui/textarea";
+import { queryClient } from "@/lib/react-query";
 
 export function ProjectForm(){
-  const router = useRouter()
+  const {slug: org} = useParams<{slug: string}>()
 
   const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
-    createProjectAction, () => console.log('')  )
+    createProjectAction, () => {
+      queryClient.invalidateQueries({
+        queryKey: [org, 'project'],
+      })
+    } )
+
   return(
     <form onSubmit={handleSubmit} className="space-y-4">
     {success === false && message && (

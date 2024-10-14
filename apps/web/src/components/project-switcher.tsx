@@ -79,13 +79,13 @@ export function ProjectSwitcher() {
         sideOffset={12}
         className="w-[200px]"
       >
-        <DropdownMenuGroup className="space-y-2">
+        <DropdownMenuGroup className="space-y-2 pointer">
           <DropdownMenuLabel>Projects</DropdownMenuLabel>
           {data &&
             data.projects.map((project) => {
               return (
-                <DropdownMenuItem key={project.id} asChild>
-                  <Link href={`/org/${orgSlug}/project/${project.slug}`}>
+                <DropdownMenuItem key={project.id} asChild >
+                  <Link  href={`/org/${orgSlug}/project/${project.slug}`}>
                     <Avatar className="mr-2 size-4">
                       {project.avatarUrl && (
                         <AvatarImage src={project.avatarUrl} />

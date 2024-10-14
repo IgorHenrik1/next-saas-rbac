@@ -6,15 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormState } from "@/hook/use-form-state";
 import { createOrganizationAction } from "./actions";
-import { useRouter } from "next/navigation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangle, Loader2 } from "lucide-react";
 
 export function OrganizationForm(){
-  const router = useRouter()
 
   const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
-    createOrganizationAction, () => console.log('foi')  )
+    createOrganizationAction)
   return(
     <form onSubmit={handleSubmit} className="space-y-4">
     {success === false && message && (
