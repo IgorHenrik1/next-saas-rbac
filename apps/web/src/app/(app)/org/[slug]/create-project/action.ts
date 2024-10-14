@@ -2,6 +2,8 @@
 
 import { z } from 'zod'
 import { HTTPError } from 'ky'
+import { createProject } from '@/http/create-project'
+import { getCurrentOrg } from '@/auth/auth'
 // import { createProject } from '@/http/create-project'
 
 const projectSchema = z.object({
@@ -23,7 +25,7 @@ export async function createProjectAction(data: FormData) {
   const { name, description } = result.data
 
   try{
-    // await createProject({name, domain, shouldAttachUserByDomain})
+  await createProject({name, description, org: getCurrentOrg()!})
 
   }catch(err){
     if(err instanceof HTTPError){
