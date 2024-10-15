@@ -10,6 +10,7 @@ import {
 import { OrganizationForm } from '../../organization-form'
 import { ShutdownOrganizationButton } from './shutdown-organization-button'
 import { getOrganization } from '@/http/get-organization'
+import { Billing } from './settings'
 
 export default async function Settings() {
   const permissions = await ability()
@@ -41,7 +42,7 @@ export default async function Settings() {
             </CardContent>
           </Card>
         )}
-        {canGetBilling && <div>Billing</div>}
+        {canGetBilling && <Billing />}
 
         {canShutdownOrganization && (
           <Card>
