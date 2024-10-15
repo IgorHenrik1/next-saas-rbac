@@ -34,8 +34,6 @@ export function ProjectSwitcher() {
       ? data.projects.find((project) => project.slug === projectSlug)
       : null
 
-  console.log(currentProject)
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex w-[192px] items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground">
