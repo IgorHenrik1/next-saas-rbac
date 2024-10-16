@@ -8,7 +8,7 @@ import { getUserPermissions } from "@/utils/get-user-permission";
 import { UnauthorizedError } from "../__errors/unauthorized-error";
 
 export async function revokeInvite(app:FastifyInstance){
-  app.withTypeProvider<ZodTypeProvider>().register(auth).post('/organizations/:slug/invites/:inviteId', {
+  app.withTypeProvider<ZodTypeProvider>().register(auth).delete('/organizations/:slug/invites/:inviteId', {
     schema:{
       tags: ['invites'],
       summary: 'Revoke an invite',
