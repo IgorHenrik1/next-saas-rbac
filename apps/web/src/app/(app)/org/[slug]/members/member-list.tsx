@@ -9,6 +9,7 @@ import { organizationSchema } from '@saas/auth'
 import { ArrowLeftRight, Crown, UserMinus } from 'lucide-react'
 import Image from 'next/image'
 import { removeMemberAction } from './actions'
+import { UpdateMemberRoleSelect } from './update-member-role-select'
 
 export async function MemberList() {
   const currentOrg = getCurrentOrg()
@@ -71,9 +72,27 @@ export async function MemberList() {
                           Transfer ownership
                         </Button>
                       )}
+                      <UpdateMemberRoleSelect
+                        memberId={member.id}
+                        value={member.role}
+                        disabled={
+                          member.id === membership.userId ||
+                          member.userId === organization.ownerId ||
+                          permissions?.cannot('update','User')
+                        }
+                      />
+
                       {permissions?.can('delete', 'User') && (
                         <form action={removeMemberAction.bind(null, member.id)}>
-                          <Button disabled={member.id === membership.userId || member.userId === organization.ownerId} type="submit" size="sm" variant="destructive">
+                          <Button
+                            disabled={
+                              member.id === membership.userId ||
+                              member.userId === organization.ownerId
+                            }
+                            type="submit"
+                            size="sm"
+                            variant="destructive"
+                          >
                             <UserMinus className="mr-2 size-4" />
                             Remove member
                           </Button>
