@@ -36,7 +36,7 @@ export async function signUpAction(data: FormData) {
       return { success: false, message, errors: null}
     }
     console.error(err)
-    return { success: false, message: 'unexpected errpr, try again in a few minutes', errors: null}
+    return { success: false, message: 'unexpected error, try again in a few minutes', errors: null}
   }
 
   return { success: true, message: null, errors: null}

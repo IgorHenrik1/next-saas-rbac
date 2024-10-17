@@ -27,7 +27,7 @@ export function ProjectForm(){
     {success === false && message && (
       <Alert variant={'destructive'}>
         <AlertTriangle className="size-4" />
-        <AlertTitle>Save a project falied!</AlertTitle>
+        <AlertTitle>Save a project failed!</AlertTitle>
         <AlertDescription>
           <p>{message}</p>
         </AlertDescription>

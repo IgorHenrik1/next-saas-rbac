@@ -13,6 +13,7 @@ import { getInvites } from '@/http/get-invites'
 import { XOctagon } from 'lucide-react'
 import Image from 'next/image'
 import { RevokeInviteButton } from './revoke-invite-button'
+import { CreateInviteForm } from './create-invite-form'
 
 export async function Invites() {
   const currentOrg = await getCurrentOrg()
@@ -25,11 +26,13 @@ export async function Invites() {
           <CardHeader>
             <CardTitle>Invite member</CardTitle>
           </CardHeader>
-          <CardContent></CardContent>
+          <CardContent>
+            <CreateInviteForm />
+          </CardContent>
         </Card>
       )}
 
-      <div className="space-y-2">
+<div className="space-y-2">
         <h2 className="text-lg font-semibold">Invites</h2>
 
         <div className="rounded border">
@@ -38,15 +41,15 @@ export async function Invites() {
               {invites.map((invite) => {
                 return (
                   <TableRow key={invite.id}>
-                    <TableCell className="py-2.5" style={{ width: 48 }}>
+                    <TableCell className="py-2.5">
                       <span className="text-muted-foreground">
                         {invite.email}
                       </span>
                     </TableCell>
-                    <TableCell className="p-2.5 font-medium">
+                    <TableCell className="py-2.5 font-medium text-center">
                       {invite.role}
                     </TableCell>
-                    <TableCell className="p-2.5">
+                    <TableCell className="py-2.5">
                       <div className="flex justify-end">
                         {permissions?.can('delete', 'Invite') && (
                           <RevokeInviteButton inviteId={invite.id} />
@@ -56,9 +59,10 @@ export async function Invites() {
                   </TableRow>
                 )
               })}
+
               {invites.length === 0 && (
                 <TableRow>
-                  <TableCell className="text-muted-foreground text-center">
+                  <TableCell className="text-center text-muted-foreground">
                     No invites found
                   </TableCell>
                 </TableRow>

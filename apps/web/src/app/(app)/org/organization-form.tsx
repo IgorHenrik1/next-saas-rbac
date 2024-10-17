@@ -27,7 +27,7 @@ export function OrganizationForm({
       {success === false && message && (
         <Alert variant={'destructive'}>
           <AlertTriangle className="size-4" />
-          <AlertTitle>Save a organization falied!</AlertTitle>
+          <AlertTitle>Save a organization failed!</AlertTitle>
           <AlertDescription>
             <p>{message}</p>
           </AlertDescription>
@@ -70,12 +70,12 @@ export function OrganizationForm({
       <div className="space-y-1">
         <div className="flex items-baseline space-x-2">
           <Checkbox
-            name="shouldAttachUsersByDomain"
-            id="shouldAttachUsersByDomain"
+            name="shouldAttachUserByDomain"
+            id="shouldAttachUserByDomain"
             className="translate-y-0.5"
             defaultChecked={initialData?.shouldAttachUserByDomain}
           />
-          <label htmlFor="shouldAttachUsersByDomain" className="space-y-1">
+          <label htmlFor="shouldAttachUserByDomain" className="space-y-1">
             <span className="text-sm font-medium leading-none">
               Auto-join new members
             </span>
@@ -85,9 +85,9 @@ export function OrganizationForm({
             </p>
           </label>
         </div>
-        {errors?.shouldAttachUsersByDomain && (
+        {errors?.shouldAttachUserByDomain && (
           <p className="text-xs font-medium text-red-500 dark:text-red-400">
-            {errors.shouldAttachUsersByDomain[0]}
+            {errors.shouldAttachUserByDomain[0]}
           </p>
         )}
       </div>

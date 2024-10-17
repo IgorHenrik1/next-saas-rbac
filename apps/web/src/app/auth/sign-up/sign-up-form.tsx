@@ -30,7 +30,7 @@ export function SignUpForm() {
         {success === false && message && (
           <Alert variant={'destructive'}>
             <AlertTriangle className="size-4" />
-            <AlertTitle>Sign in falied!</AlertTitle>
+            <AlertTitle>Sign in failed!</AlertTitle>
             <AlertDescription>
               <p>{message}</p>
             </AlertDescription>

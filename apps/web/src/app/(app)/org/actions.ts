@@ -55,7 +55,7 @@ export async function createOrganizationAction(data: FormData) {
       return { success: false, message, errors: null}
     }
     console.error(err)
-    return { success: false, message: 'unexpected errpr, try again in a few minutes', errors: null}
+    return { success: false, message: 'unexpected error, try again in a few minutes', errors: null}
   }
 
   return { success: true, message: 'Successfully saved the organization', errors: null}
@@ -83,7 +83,7 @@ export async function updateOrganizationAction(data: FormData) {
       return { success: false, message, errors: null}
     }
     console.error(err)
-    return { success: false, message: 'unexpected errpr, try again in a few minutes', errors: null}
+    return { success: false, message: 'unexpected error, try again in a few minutes', errors: null}
   }
 
   return { success: true, message: 'Successfully saved the organization', errors: null}

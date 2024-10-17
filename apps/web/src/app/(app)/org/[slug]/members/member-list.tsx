@@ -94,7 +94,7 @@ export async function MemberList() {
                             variant="destructive"
                           >
                             <UserMinus className="mr-2 size-4" />
-                            Remove member
+                            Remove
                           </Button>
                         </form>
                       )}
