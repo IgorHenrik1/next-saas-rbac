@@ -69,7 +69,7 @@ export async function getPendingInvites(app:FastifyInstance){
 
      
 
-      return {invites }
+      return { invites }
     },
   )
 }
