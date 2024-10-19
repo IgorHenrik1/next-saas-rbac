@@ -20,13 +20,13 @@ export async function ProfileButton() {
   const { user } = await auth()
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-3 outline-none">
-        <div className="flex flex-col items-end">
+      <DropdownMenuTrigger className="flex flex-row-reverse items-center gap-3 outline-none lg:flex-row">
+        <div className="flex w-full flex-col items-start lg:items-end">
           <span className="text-sm font-medium">{user.name}</span>
-          <span className="text-xs text-muted-foreground">{user.email}</span>
+          <span className="text-xs text-muted-foreground ">{user.email}</span>
         </div>
 
-        <Avatar className='size-8'>
+        <Avatar className="size-8">
           {user.avatarUrl && <AvatarImage src={user.avatarUrl} />}
 
           {user.name && (
@@ -34,11 +34,11 @@ export async function ProfileButton() {
           )}
         </Avatar>
 
-        <ChevronDown className="size-4 text-muted-foreground" />
+        <ChevronDown className="hidden size-4 text-muted-foreground lg:block" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent className="hidden lg:block" align="end">
         <DropdownMenuItem asChild>
-          <a href="/api/auth/sign-out">
+          <a href="/api/auth/sign-out" className="mt-2 border">
             <LogOut className="mr-2 size-4" />
             Sign Out
           </a>

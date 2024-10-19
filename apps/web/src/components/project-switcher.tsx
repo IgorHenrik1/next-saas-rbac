@@ -36,7 +36,7 @@ export function ProjectSwitcher() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex w-[192px] items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground">
+      <DropdownMenuTrigger className="flex border p-2 lg:p-1 lg:border-none w-full lg:w-[192px] items-center gap-2 rounded text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground">
         {
           isLoading ? (
             <>
