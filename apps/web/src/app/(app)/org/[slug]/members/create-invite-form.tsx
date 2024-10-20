@@ -34,8 +34,8 @@ export function CreateInviteForm() {
       )}
 
 
-      <div className="flex items-center gap-2">
-        <div className="space-y-1 flex-1">
+      <div className="flex flex-col sm:flex-row items-center gap-2">
+        <div className="space-y-1 flex-1 w-full">
           <Input name="email" id="email" placeholder="john@example.com" />
           {errors?.email && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -44,7 +44,7 @@ export function CreateInviteForm() {
           )}
         </div>
         <Select name="role" defaultValue="MEMBER">
-          <SelectTrigger className="w-32">
+          <SelectTrigger className="w-full sm:w-32">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
