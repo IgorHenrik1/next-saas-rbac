@@ -17,6 +17,7 @@ model User {
   id                 String         @id @default(uuid())
   name               String?
   email              String         @unique
+  phone              String?
   passwordHash       String?        @map("password_hash")
   avatarUrl          String?        @map("avatar_url")
   createdAt          DateTime       @default(now()) @map("created_at")
@@ -26,7 +27,8 @@ model User {
   invites            Invite[]
   member_on          Member[]
   owns_organizations Organization[]
-  owns_projects      Project[]
+  owns_services      Service[]
+  Booking            Booking[]
 
   @@map("users")
 }
@@ -91,8 +93,9 @@ model Member {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String       @map("organization_id")
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @map("user_id")
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String    @map("user_id")
+  bookings Booking[]
 
   @@unique([organizationId, userId])
   @@map("members")
@@ -113,16 +116,19 @@ model Organization {
 
   invites  Invite[]
   members  Member[]
-  projects Project[]
+  services Service[]
+  bookings Booking[]
 
   @@map("organizations")
 }
 
-model Project {
+model Service {
   id          String   @id @default(uuid())
   name        String
   description String
   slug        String   @unique
+  price       String
+  duration    String
   avatarUrl   String?  @map("avatar_url")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -133,5 +139,42 @@ model Project {
   owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String @map("owner_id")
 
-  @@map("projects")
+  bookings       Booking[]        @relation("BookingServices")
+  BookingService BookingService[]
+
+  @@map("service")
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  date      DateTime
+  price     String
+  avatarUrl String?  @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String       @map("organization_id")
+
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId String @map("member_id")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  services       Service[]        @relation("BookingServices")
+  BookingService BookingService[]
+
+  @@map("booking")
+}
+
+model BookingService {
+  bookingId String
+  serviceId String
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([bookingId, serviceId])
+  @@map("booking_services")
 }
