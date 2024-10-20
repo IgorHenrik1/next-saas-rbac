@@ -24,15 +24,14 @@ export async function MemberList() {
 
   return (
     <div className="space-y-2">
-      <h2 className="text-lg font-semibold">Members</h2>
 
       <div className="rounded border">
         <Table>
           <TableBody>
             {members.map((member) => {
               return (
-                <TableRow key={member.id}>
-                  <TableCell className="py-2.5" style={{ width: 48 }}>
+                <TableRow key={member.id}  className='block sm:table-row'>
+                  <TableCell className="pb-2 pt-4 sm:py-2.5" style={{ width: 48 }}>
                     <Avatar>
                       <AvatarFallback />
                       {member.avatarUrl && (
@@ -46,7 +45,7 @@ export async function MemberList() {
                       )}
                     </Avatar>
                   </TableCell>
-                  <TableCell className="flex flex-col">
+                  <TableCell className="flex flex-col py-1 sm:py-4">
                     <span className="inline-flex items-center gap-2 font-medium">
                       {member.name}
                       {member.userId === membership.userId && ' (me)'}
@@ -61,13 +60,13 @@ export async function MemberList() {
                       {member.email}
                     </span>
                   </TableCell>
-                  <TableCell className="p-2.5">
-                    <div className="flex items-center justify-end gap-2">
+                  <TableCell className="pt-0 pb-4 sm:p-2.5">
+                    <div className="flex flex-col items-start sm:flex-row sm:items-center justify-end gap-2">
                       {permissions?.can(
                         'transfer_ownership',
                         authOrganization
                       ) && (
-                        <Button size="sm" variant="ghost">
+                        <Button size="sm" variant="ghost" className='px-0 sm:px-3'>
                           <ArrowLeftRight className="mr-2 size-4" />
                           Transfer ownership
                         </Button>
