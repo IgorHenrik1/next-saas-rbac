@@ -1,123 +1,270 @@
-import { PrismaClient } from '@prisma/client';
-import { hash } from 'bcryptjs';
-import { faker } from '@faker-js/faker';
+import {PrismaClient} from '@prisma/client'
+import {hash} from 'bcryptjs'
+import {faker} from '@faker-js/faker'
+const prisma = new PrismaClient()
 
-const prisma = new PrismaClient();
+async function seed(){
+  await prisma.organization.deleteMany()
+  await prisma.user.deleteMany()
 
-async function seed() {
-  // Deleting previous data
-  const deleteUsers = await prisma.user.deleteMany();
-  const deleteOrganizations = await prisma.organization.deleteMany();
-
-  console.log(`Deleted ${deleteUsers.count} users`);
-  console.log(`Deleted ${deleteOrganizations.count} organizations`);
-
-  // Creating new data
-  const passwordHash = await hash('123456', 1);
+  const passwordHash = await hash('123456', 1)
 
   const user = await prisma.user.create({
-    data: {
+    data:   {
       name: 'John Doe',
       email: 'john.doe@example.com',
       avatarUrl: 'https://github.com/IgorHenrik1.png',
       passwordHash,
-    },
-  });
+    }
+  })
 
   const anotherUser = await prisma.user.create({
-    data: {
+    data:    {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       avatarUrl: faker.image.avatarGitHub(),
       passwordHash,
     },
-  });
-
+  })
   const anotherUser2 = await prisma.user.create({
-    data: {
+    data:    {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       avatarUrl: faker.image.avatarGitHub(),
       passwordHash,
     },
-  });
+  })
 
-  // Creating an organization
-  const organization = await prisma.organization.create({
-    data: {
+
+  await prisma.organization.create({
+    data:{
       name: 'Acme Inc (Admin)',
-      domain: 'acme.com',
+      domain:'acme.com',
       slug: 'acme-admin',
       avatarUrl: faker.image.avatarGitHub(),
       shouldAttachUserByDomain: true,
       ownerId: user.id,
-      services: {
-        createMany: {
-          data: [
+      projects:{
+        createMany:{
+          data:[
             {
               name: faker.lorem.words(5),
-              slug: faker.lorem.slug(),
+              slug: faker.lorem.words(5),
               description: faker.lorem.paragraph(),
               avatarUrl: faker.image.avatarGitHub(),
-              ownerId: faker.helpers.arrayElement([user.id, anotherUser.id, anotherUser2.id]),
-              price: faker.commerce.price(), // Add a price value here
-              duration: '30', // Add a duration value here (in minutes, for example)
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
             },
             {
               name: faker.lorem.words(5),
-              slug: faker.lorem.slug(),
+              slug: faker.lorem.words(5),
               description: faker.lorem.paragraph(),
               avatarUrl: faker.image.avatarGitHub(),
-              ownerId: faker.helpers.arrayElement([user.id, anotherUser.id, anotherUser2.id]),
-              price: faker.commerce.price(), // Add a price value here
-              duration: '30', // Add a duration value here
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
             },
             {
               name: faker.lorem.words(5),
-              slug: faker.lorem.slug(),
+              slug: faker.lorem.words(5),
               description: faker.lorem.paragraph(),
               avatarUrl: faker.image.avatarGitHub(),
-              ownerId: faker.helpers.arrayElement([user.id, anotherUser.id, anotherUser2.id]),
-              price: faker.commerce.price(), // Add a price value here
-              duration: '30', // Add a duration value here
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
             },
-          ],
-        },
+          ]
+        }
       },
       members: {
         createMany: {
           data: [
             {
               userId: user.id,
-              role: 'ADMIN',
+              role: 'ADMIN'
             },
             {
               userId: anotherUser.id,
-              role: 'MEMBER',
+              role: 'MEMBER'
             },
             {
               userId: anotherUser2.id,
-              role: 'MEMBER',
-            },
-          ],
-        },
-      },
-    },
-  });
-  
-  console.log(`Created organization: ${organization.name}`);
-  
+              role: 'MEMBER'
+            }
+          ]
+        }
+      }
+    }
+  })
 
-  console.log(`Created organization: ${organization.name}`);
+  await prisma.organization.create({
+    data:{
+      name: 'Acme Inc (Member)',
+      slug: 'acme-member',
+      avatarUrl: faker.image.avatarGitHub(),
+      ownerId: user.id,
+      projects:{
+        createMany:{
+          data:[
+            {
+              name: faker.lorem.words(5),
+              slug: faker.lorem.words(5),
+              description: faker.lorem.paragraph(),
+              avatarUrl: faker.image.avatarGitHub(),
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
+            },
+            {
+              name: faker.lorem.words(5),
+              slug: faker.lorem.words(5),
+              description: faker.lorem.paragraph(),
+              avatarUrl: faker.image.avatarGitHub(),
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
+            },
+            {
+              name: faker.lorem.words(5),
+              slug: faker.lorem.words(5),
+              description: faker.lorem.paragraph(),
+              avatarUrl: faker.image.avatarGitHub(),
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
+            },
+          ]
+        }
+      },
+      members: {
+        createMany: {
+          data: [
+            {
+              userId: user.id,
+              role: 'MEMBER'
+            },
+            {
+              userId: anotherUser.id,
+              role: 'ADMIN'
+            },
+            {
+              userId: anotherUser2.id,
+              role: 'MEMBER'
+            }
+          ]
+        }
+      }
+    }
+  })
+
+  await prisma.organization.create({
+    data:{
+      name: 'Acme Inc (Billing)',
+      slug: 'acme-billing',
+      avatarUrl: faker.image.avatarGitHub(),
+      ownerId: user.id,
+      projects:{
+        createMany:{
+          data:[
+            {
+              name: faker.lorem.words(5),
+              slug: faker.lorem.words(5),
+              description: faker.lorem.paragraph(),
+              avatarUrl: faker.image.avatarGitHub(),
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
+            },
+            {
+              name: faker.lorem.words(5),
+              slug: faker.lorem.words(5),
+              description: faker.lorem.paragraph(),
+              avatarUrl: faker.image.avatarGitHub(),
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
+            },
+            {
+              name: faker.lorem.words(5),
+              slug: faker.lorem.words(5),
+              description: faker.lorem.paragraph(),
+              avatarUrl: faker.image.avatarGitHub(),
+              ownerId: faker.helpers.arrayElement(
+                [
+                  user.id,
+                  anotherUser.id,
+                  anotherUser2.id
+                ]
+              )
+          
+            },
+          ]
+        }
+      },
+      members: {
+        createMany: {
+          data: [
+            {
+              userId: user.id,
+              role: 'BILLING'
+            },
+            {
+              userId: anotherUser.id,
+              role: 'MEMBER'
+            },
+            {
+              userId: anotherUser2.id,
+              role: 'MEMBER'
+            }
+          ]
+        }
+      }
+    }
+  })
+
 }
 
-seed()
-  .then(() => {
-    console.log('Database seeded successfully');
-  })
-  .catch((e) => {
-    console.error('Error seeding the database', e);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+seed().then(()=> {
+  console.log('Database seeded')
+})
