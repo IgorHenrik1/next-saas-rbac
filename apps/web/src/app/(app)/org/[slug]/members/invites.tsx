@@ -32,7 +32,7 @@ export async function Invites() {
         </Card>
       )}
 
-<div className="space-y-2">
+      <div className="space-y-2">
         <h2 className="text-lg font-semibold">Invites</h2>
 
         <div className="rounded border">
@@ -40,16 +40,16 @@ export async function Invites() {
             <TableBody>
               {invites.map((invite) => {
                 return (
-                  <TableRow key={invite.id}>
-                    <TableCell className="py-2.5">
+                  <TableRow key={invite.id} className='flex flex-col items-start sm:table-row'>
+                    <TableCell className=" pt-4 sm:py-2.5">
                       <span className="text-muted-foreground">
                         {invite.email}
                       </span>
                     </TableCell>
-                    <TableCell className="py-2.5 font-medium text-center">
+                    <TableCell className="py-2.5 text-center font-medium">
                       {invite.role}
                     </TableCell>
-                    <TableCell className="py-2.5">
+                    <TableCell className="pb-4 sm:py-2.5">
                       <div className="flex justify-end">
                         {permissions?.can('delete', 'Invite') && (
                           <RevokeInviteButton inviteId={invite.id} />
