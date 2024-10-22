@@ -1,29 +1,28 @@
-import { Role } from "@saas/auth";
-import { api } from "./api-client"
+import { Role } from '@saas/auth'
 
-interface GetInviteResponse{
+import { api } from './api-client'
+
+interface GetInviteResponse {
   invite: {
-    id: string;
-    email: string;
+    id: string
+    email: string
     role: Role
-    createAt: string;
+    createAt: string
     author: {
-        id: string;
-        name: string | null;
-        avatarUrl: string | null;
-    } | null;
+      id: string
+      name: string | null
+      avatarUrl: string | null
+    } | null
     organization: {
-        name: string;
-    };
+      name: string
+    }
   }
 }
 
-export async function getInvite(inviteId: string){
-
-
-  const result = await api.get(`invites/${inviteId}`, {
-
-  }).json<GetInviteResponse>()
+export async function getInvite(inviteId: string) {
+  const result = await api
+    .get(`invites/${inviteId}`, {})
+    .json<GetInviteResponse>()
 
   return result
 }

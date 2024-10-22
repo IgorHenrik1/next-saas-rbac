@@ -1,19 +1,10 @@
 import { ability, getCurrentOrg } from '@/auth/auth'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { getInvites } from '@/http/get-invites'
-import { XOctagon } from 'lucide-react'
-import Image from 'next/image'
-import { RevokeInviteButton } from './revoke-invite-button'
+
 import { CreateInviteForm } from './create-invite-form'
+import { RevokeInviteButton } from './revoke-invite-button'
 
 export async function Invites() {
   const currentOrg = await getCurrentOrg()
@@ -40,8 +31,11 @@ export async function Invites() {
             <TableBody>
               {invites.map((invite) => {
                 return (
-                  <TableRow key={invite.id} className='flex flex-col items-start sm:table-row'>
-                    <TableCell className=" pt-4 sm:py-2.5">
+                  <TableRow
+                    key={invite.id}
+                    className="flex flex-col items-start sm:table-row"
+                  >
+                    <TableCell className="pt-4 sm:py-2.5">
                       <span className="text-muted-foreground">
                         {invite.email}
                       </span>

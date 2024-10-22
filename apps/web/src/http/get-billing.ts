@@ -1,23 +1,25 @@
-import { api } from "./api-client"
+import { api } from './api-client'
 
-interface GetBillingResponse{
+interface GetBillingResponse {
   billing: {
     seats: {
-        amount: number;
-        unit: number;
-        price: number;
-    };
+      amount: number
+      unit: number
+      price: number
+    }
     projects: {
-        amount: number;
-        unit: number;
-        price: number;
-    };
-    total: number;
-}
+      amount: number
+      unit: number
+      price: number
+    }
+    total: number
+  }
 }
 
-export async function getBilling(org: string){
-  const result = await api.get(`organizations/${org}/billing`).json<GetBillingResponse>()
+export async function getBilling(org: string) {
+  const result = await api
+    .get(`organizations/${org}/billing`)
+    .json<GetBillingResponse>()
 
   return result
 }

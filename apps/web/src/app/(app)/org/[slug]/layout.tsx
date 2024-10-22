@@ -1,7 +1,5 @@
-import { isAuthenticated } from '@/auth/auth'
 import { Header } from '@/components/header'
 import { Tabs } from '@/components/tabs'
-import { redirect } from 'next/navigation'
 
 export default async function OrgLayout({
   children,

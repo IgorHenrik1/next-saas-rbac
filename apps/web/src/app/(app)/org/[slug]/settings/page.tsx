@@ -1,5 +1,4 @@
 import { ability, getCurrentOrg } from '@/auth/auth'
-import { Header } from '@/components/header'
 import {
   Card,
   CardContent,
@@ -7,10 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { OrganizationForm } from '../../organization-form'
-import { ShutdownOrganizationButton } from './shutdown-organization-button'
 import { getOrganization } from '@/http/get-organization'
+
+import { OrganizationForm } from '../../organization-form'
 import { Billing } from './settings'
+import { ShutdownOrganizationButton } from './shutdown-organization-button'
 
 export default async function Settings() {
   const permissions = await ability()
@@ -19,7 +19,7 @@ export default async function Settings() {
   const canGetBilling = permissions?.can('get', 'Billing')
   const canShutdownOrganization = permissions?.can('delete', 'Organization')
 
-  const {organization} = await getOrganization(currentOrg!)
+  const { organization } = await getOrganization(currentOrg!)
   return (
     <div className="space-y-4 py-4">
       <h1 className="text-2xl font-bold">Settings</h1>
@@ -34,11 +34,15 @@ export default async function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <OrganizationForm isUpdating initialData={{
-                name: organization.name,
-                domain: organization.domain,
-                shouldAttachUserByDomain: organization.shouldAttachUserByDomain,
-              }}/>
+              <OrganizationForm
+                isUpdating
+                initialData={{
+                  name: organization.name,
+                  domain: organization.domain,
+                  shouldAttachUserByDomain:
+                    organization.shouldAttachUserByDomain,
+                }}
+              />
             </CardContent>
           </Card>
         )}

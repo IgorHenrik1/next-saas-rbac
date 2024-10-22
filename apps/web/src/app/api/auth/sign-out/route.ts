@@ -1,9 +1,7 @@
-import { signInWithGithub } from "@/http/sign-in-with-github";
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { cookies } from 'next/headers'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: NextRequest){
-
+export async function GET(request: NextRequest) {
   const redirectUrl = request.nextUrl.clone()
 
   redirectUrl.pathname = '/auth/sign-in'
@@ -11,5 +9,4 @@ export async function GET(request: NextRequest){
   cookies().delete('token')
 
   return NextResponse.redirect(redirectUrl)
-
 }

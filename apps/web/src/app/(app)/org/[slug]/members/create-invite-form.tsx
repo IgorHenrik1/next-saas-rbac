@@ -1,11 +1,10 @@
 'use client'
 
+import { AlertTriangle, Loader2, UserPlus } from 'lucide-react'
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useFormState } from '@/hook/use-form-state'
-import { useParams } from 'next/navigation'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { AlertTriangle, Loader2, UserPlus } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -13,11 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useFormState } from '@/hook/use-form-state'
+
 import { createInviteAction } from './actions'
 
 export function CreateInviteForm() {
-  const { slug: org } = useParams<{ slug: string }>()
-
   const [{ success, message, errors }, handleSubmit, isPending] =
     useFormState(createInviteAction)
 
@@ -33,9 +32,8 @@ export function CreateInviteForm() {
         </Alert>
       )}
 
-
-      <div className="flex flex-col sm:flex-row items-center gap-2">
-        <div className="space-y-1 flex-1 w-full">
+      <div className="flex flex-col items-center gap-2 sm:flex-row">
+        <div className="w-full flex-1 space-y-1">
           <Input name="email" id="email" placeholder="john@example.com" />
           {errors?.email && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -53,12 +51,12 @@ export function CreateInviteForm() {
             <SelectItem value="BILLING">Billing</SelectItem>
           </SelectContent>
         </Select>
-        <Button type="submit"  disabled={isPending}>
+        <Button type="submit" disabled={isPending}>
           {isPending ? (
             <Loader2 className="size-4 animate-spin" />
           ) : (
             <>
-              <UserPlus className='size-4 mr-2' />
+              <UserPlus className="mr-2 size-4" />
               Invite user
             </>
           )}

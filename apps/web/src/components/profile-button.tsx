@@ -2,10 +2,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
 } from '@radix-ui/react-dropdown-menu'
-import { DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { ChevronDown, LogOut } from 'lucide-react'
+
 import { auth } from '@/auth/auth'
+
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 
 function getInitials(name: string): string {
   const initials = name
@@ -23,7 +25,7 @@ export async function ProfileButton() {
       <DropdownMenuTrigger className="flex flex-row-reverse items-center gap-3 outline-none lg:flex-row">
         <div className="flex w-full flex-col items-start lg:items-end">
           <span className="text-sm font-medium">{user.name}</span>
-          <span className="text-xs text-muted-foreground ">{user.email}</span>
+          <span className="text-xs text-muted-foreground">{user.email}</span>
         </div>
 
         <Avatar className="size-8">

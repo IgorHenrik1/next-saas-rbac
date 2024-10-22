@@ -1,29 +1,17 @@
-import rocketseatIcon from '@/assets/rockeatseat-icon.svg'
+import { LogOut, MenuIcon, Slash } from 'lucide-react'
 import Image from 'next/image'
-import { ProfileButton } from './profile-button'
-import { LogOut, Menu, MenuIcon, Slash } from 'lucide-react'
-import { OrganizationSwitcher } from './organization-switcher'
+
+import rocketseatIcon from '@/assets/rockeatseat-icon.svg'
 import { ability } from '@/auth/auth'
-import { Separator } from './ui/separator'
-import { ThemeSwitcher } from './theme/theme-switcher'
-import { ProjectSwitcher } from './project-switcher'
+
+import { OrganizationSwitcher } from './organization-switcher'
 import { PendingInvites } from './pending-invites'
+import { ProfileButton } from './profile-button'
+import { ProjectSwitcher } from './project-switcher'
+import { ThemeSwitcher } from './theme/theme-switcher'
 import { Button } from './ui/button'
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetOverlay,
-  SheetPortal,
-  SheetTitle,
-  SheetTrigger,
-} from './ui/sheet'
-import { SideMenu } from './side-menu'
-import { Dialog, DialogContent, DialogTrigger } from '@radix-ui/react-dialog'
-import { Card, CardContent } from './ui/card'
+import { Separator } from './ui/separator'
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 export async function Header() {
   const permissions = await ability()
   return (
@@ -63,8 +51,8 @@ export async function Header() {
               <MenuIcon size={16} />
             </Button>
           </SheetTrigger>
-          <SheetContent className="flex flex-col gap-3 px-5 pt-10 w-full items-start">
-            <div className="flex flex-row-reverse items-center w-full justify-between">
+          <SheetContent className="flex w-full flex-col items-start gap-3 px-5 pt-10">
+            <div className="flex w-full flex-row-reverse items-center justify-between">
               <a href="/api/auth/sign-out" className="block lg:hidden">
                 <LogOut className="size-4" />
               </a>

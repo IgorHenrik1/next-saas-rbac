@@ -1,10 +1,10 @@
-import { isAuthenticated } from '@/auth/auth'
-import { Header } from '@/components/header'
 import { redirect } from 'next/navigation'
+
+import { isAuthenticated } from '@/auth/auth'
 
 export default async function AppLayout({
   sheet,
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode
   sheet: React.ReactNode
@@ -14,7 +14,7 @@ export default async function AppLayout({
   }
 
   return (
-    <div className='px-5 xl:px-0'>
+    <div className="px-5 xl:px-0">
       {children}
       {sheet}
     </div>

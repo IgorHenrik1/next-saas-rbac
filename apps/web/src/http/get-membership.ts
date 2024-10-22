@@ -1,18 +1,20 @@
-import { api } from "./api-client"
+import { Role } from '@saas/auth'
 
-import {Role} from '@saas/auth'
+import { api } from './api-client'
 
-interface GetMembershipResponse{
+interface GetMembershipResponse {
   membership: {
-    id: string;
+    id: string
     role: Role
     organizationId: string
     userId: string
   }
 }
 
-export async function getMembership(org: string){
-  const result = await api.get(`organizations/${org}/membership`).json<GetMembershipResponse>()
+export async function getMembership(org: string) {
+  const result = await api
+    .get(`organizations/${org}/membership`)
+    .json<GetMembershipResponse>()
 
   return result
 }

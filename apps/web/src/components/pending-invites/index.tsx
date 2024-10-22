@@ -1,13 +1,15 @@
 'use client'
 
-import { Check, UserPlus2, X } from 'lucide-react'
-import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover'
-import { Button } from '../ui/button'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { Check, UserPlus2, X } from 'lucide-react'
 import { useState } from 'react'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+
 import { getPendingInvites } from '@/http/get-pending-invites'
+
+import { Button } from '../ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { acceptInviteAction, rejectInviteAction } from './actions'
 
 dayjs.extend(relativeTime)
@@ -15,19 +17,18 @@ dayjs.extend(relativeTime)
 export function PendingInvites() {
   const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
-  const { data, isLoading, refetch } = useQuery({
+  const { data } = useQuery({
     queryKey: ['pending-invites'],
     queryFn: () => getPendingInvites(),
     enabled: isOpen,
   })
   async function handleAcceptInvite(inviteId: string) {
     await acceptInviteAction(inviteId)
-    queryClient.invalidateQueries({ queryKey: ['pending-invites'],})
+    queryClient.invalidateQueries({ queryKey: ['pending-invites'] })
   }
   async function handleRejectInvite(inviteId: string) {
     await rejectInviteAction(inviteId)
-    queryClient.invalidateQueries({ queryKey: ['pending-invites'],})
-
+    queryClient.invalidateQueries({ queryKey: ['pending-invites'] })
   }
 
   return (
@@ -43,7 +44,7 @@ export function PendingInvites() {
           Pending invites ({data?.invites.length ?? '0'})
         </span>
         {data?.invites.length === 0 && (
-          <p className='text-sm text-muted-foreground'>No invites found</p>
+          <p className="text-sm text-muted-foreground">No invites found</p>
         )}
         {data?.invites.map((invite) => {
           return (

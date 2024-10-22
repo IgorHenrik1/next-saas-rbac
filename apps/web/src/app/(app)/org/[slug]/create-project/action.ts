@@ -1,41 +1,47 @@
-"use server"
+'use server'
 
-import { z } from 'zod'
 import { HTTPError } from 'ky'
-import { createProject } from '@/http/create-project'
+import { z } from 'zod'
+
 import { getCurrentOrg } from '@/auth/auth'
+import { createProject } from '@/http/create-project'
 // import { createProject } from '@/http/create-project'
 
 const projectSchema = z.object({
   name: z.string().min(4, {
-    message: 'Please include at least 4 characters.'
+    message: 'Please include at least 4 characters.',
   }),
-  description: z.string()
+  description: z.string(),
 })
 
 export async function createProjectAction(data: FormData) {
-
   const result = projectSchema.safeParse(Object.fromEntries(data))
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors
-    return {success: false, message: null,  errors}
+    return { success: false, message: null, errors }
   }
 
   const { name, description } = result.data
 
-  try{
-  await createProject({name, description, org: getCurrentOrg()!})
-
-  }catch(err){
-    if(err instanceof HTTPError){
-      const {message} = await err.response.json()
-      return { success: false, message, errors: null}
+  try {
+    await createProject({ name, description, org: getCurrentOrg()! })
+  } catch (err) {
+    if (err instanceof HTTPError) {
+      const { message } = await err.response.json()
+      return { success: false, message, errors: null }
     }
     console.error(err)
-    return { success: false, message: 'unexpected error, try again in a few minutes', errors: null}
+    return {
+      success: false,
+      message: 'unexpected error, try again in a few minutes',
+      errors: null,
+    }
   }
 
-  return { success: true, message: 'Successfully saved the project', errors: null}
-
+  return {
+    success: true,
+    message: 'Successfully saved the project',
+    errors: null,
+  }
 }

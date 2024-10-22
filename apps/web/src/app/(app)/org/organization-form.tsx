@@ -1,14 +1,19 @@
 'use client'
 
+import { AlertTriangle, Loader2 } from 'lucide-react'
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useFormState } from '@/hook/use-form-state'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { AlertTriangle, Loader2 } from 'lucide-react'
-import { createOrganizationAction, organizationSchema, updateOrganizationAction } from './actions'
-import { updateOrganization } from '@/http/update-organization'
+
+import {
+  createOrganizationAction,
+  organizationSchema,
+  updateOrganizationAction,
+} from './actions'
 
 interface OrganizationFormProps {
   isUpdating?: boolean
@@ -19,7 +24,9 @@ export function OrganizationForm({
   isUpdating = false,
   initialData,
 }: OrganizationFormProps) {
-  const formAction = isUpdating ? updateOrganizationAction : createOrganizationAction
+  const formAction = isUpdating
+    ? updateOrganizationAction
+    : createOrganizationAction
   const [{ success, message, errors }, handleSubmit, isPending] =
     useFormState(formAction)
   return (

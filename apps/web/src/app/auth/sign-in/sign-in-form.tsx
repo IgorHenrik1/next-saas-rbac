@@ -1,18 +1,20 @@
 'use client'
 
+import { AlertTriangle, Loader2 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+
+import githubIcon from '@/assets/github-icon.svg'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import Link from 'next/link'
-import githubIcon from '@/assets/github-icon.svg'
-import Image from 'next/image'
-import { signInWithEmailAndPassword } from './actions'
-import { AlertTriangle, Loader2 } from 'lucide-react'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { useFormState } from '@/hook/use-form-state'
-import { useRouter, useSearchParams } from 'next/navigation'
+
 import { signInWithGithub } from '../actions'
+import { signInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
   const router = useRouter()
@@ -22,7 +24,7 @@ export function SignInForm() {
     signInWithEmailAndPassword,
     () => {
       router.push('/')
-    }
+    },
   )
 
   return (
@@ -39,7 +41,12 @@ export function SignInForm() {
         )}
         <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
-          <Input name="email" type="email" id="email"  defaultValue={searchParams.get('email') ?? ''}/>
+          <Input
+            name="email"
+            type="email"
+            id="email"
+            defaultValue={searchParams.get('email') ?? ''}
+          />
           {errors?.email && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">
               {errors.email[0]}

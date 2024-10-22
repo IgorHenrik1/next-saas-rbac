@@ -1,15 +1,16 @@
-import { auth, isAuthenticated } from '@/auth/auth'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { acceptInvite } from '@/http/accept-invite'
-import { getInvite } from '@/http/get-invite'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { CheckCircle, LogIn, LogOut } from 'lucide-react'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+
+import { auth, isAuthenticated } from '@/auth/auth'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { acceptInvite } from '@/http/accept-invite'
+import { getInvite } from '@/http/get-invite'
 
 dayjs.extend(relativeTime)
 
@@ -94,15 +95,13 @@ export default async function InvitePage({ params }: InvitePageProps) {
             </p>
             <div className="space-y-2">
               <Button className="w-full" variant="secondary" asChild>
-                <a href='/api/auth/sign-out'>
-                <LogOut className='size-4 mr-2'/>
-                Sign out from {currentUserEmail}
+                <a href="/api/auth/sign-out">
+                  <LogOut className="mr-2 size-4" />
+                  Sign out from {currentUserEmail}
                 </a>
               </Button>
               <Button className="w-full" variant="outline" asChild>
-                <Link href='/'>
-                Back to dashboard
-                </Link>
+                <Link href="/">Back to dashboard</Link>
               </Button>
             </div>
           </div>

@@ -1,20 +1,19 @@
 'use server'
 
-import { getCurrentOrg } from "@/auth/auth"
-import { createInvite } from "@/http/create-invite"
-import { RemoveMember } from "@/http/remove-member"
-import { revokeInvite } from "@/http/revoke-invite"
-import { updateMember } from "@/http/update-member"
-import { Role, roleSchema } from "@saas/auth"
-import { HTTPError } from "ky"
-import { revalidateTag } from "next/cache"
-import { z } from "zod"
+import { Role, roleSchema } from '@saas/auth'
+import { HTTPError } from 'ky'
+import { revalidateTag } from 'next/cache'
+import { z } from 'zod'
 
-
+import { getCurrentOrg } from '@/auth/auth'
+import { createInvite } from '@/http/create-invite'
+import { RemoveMember } from '@/http/remove-member'
+import { revokeInvite } from '@/http/revoke-invite'
+import { updateMember } from '@/http/update-member'
 
 const inviteSchema = z.object({
-  email: z.string().email({message: 'Invalid e-mail address' }),
-  role: roleSchema
+  email: z.string().email({ message: 'Invalid e-mail address' }),
+  role: roleSchema,
 })
 
 export async function createInviteAction(data: FormData) {
@@ -23,40 +22,46 @@ export async function createInviteAction(data: FormData) {
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors
-    return {success: false, message: null,  errors}
+    return { success: false, message: null, errors }
   }
 
   const { email, role } = result.data
 
-  try{
-  await createInvite({email, role, org: currentOrg!})
-  revalidateTag(`${currentOrg}/invites`)
-
-  }catch(err){
-    if(err instanceof HTTPError){
-      const {message} = await err.response.json()
-      return { success: false, message, errors: null}
+  try {
+    await createInvite({ email, role, org: currentOrg! })
+    revalidateTag(`${currentOrg}/invites`)
+  } catch (err) {
+    if (err instanceof HTTPError) {
+      const { message } = await err.response.json()
+      return { success: false, message, errors: null }
     }
     console.error(err)
-    return { success: false, message: 'unexpected error, try again in a few minutes', errors: null}
+    return {
+      success: false,
+      message: 'unexpected error, try again in a few minutes',
+      errors: null,
+    }
   }
 
-  return { success: true, message: 'Successfully created the invite', errors: null}
-
+  return {
+    success: true,
+    message: 'Successfully created the invite',
+    errors: null,
+  }
 }
 
-export async function removeMemberAction(memberId: string){
+export async function removeMemberAction(memberId: string) {
   const currentOrg = getCurrentOrg()
-  await RemoveMember({org: currentOrg!, memberId})
+  await RemoveMember({ org: currentOrg!, memberId })
   revalidateTag(`${currentOrg}/members`)
 }
-export async function updateMemberAction(memberId: string, role: Role){
+export async function updateMemberAction(memberId: string, role: Role) {
   const currentOrg = getCurrentOrg()
-  await updateMember({org: currentOrg!, memberId, role})
+  await updateMember({ org: currentOrg!, memberId, role })
   revalidateTag(`${currentOrg}/members`)
 }
-export async function revokeInviteAction(inviteId: string){
+export async function revokeInviteAction(inviteId: string) {
   const currentOrg = getCurrentOrg()
-  await revokeInvite({org: currentOrg!, inviteId})
+  await revokeInvite({ org: currentOrg!, inviteId })
   revalidateTag(`${currentOrg}/invites`)
 }

@@ -1,9 +1,11 @@
-import { api } from "./api-client"
+import { api } from './api-client'
 
-interface ShutdownOrganizationRequest{
+interface ShutdownOrganizationRequest {
   org: string
 }
 
-export async function shutdownOrganization({org} : ShutdownOrganizationRequest){
-  const result = await api.delete(`organizations/${org}`)
+export async function shutdownOrganization({
+  org,
+}: ShutdownOrganizationRequest) {
+  await api.delete(`organizations/${org}`)
 }

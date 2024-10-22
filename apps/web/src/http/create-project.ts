@@ -1,6 +1,6 @@
-import { api } from "./api-client"
+import { api } from './api-client'
 
-interface CreateProjectRequest{
+interface CreateProjectRequest {
   org: string
   name: string
   description: string
@@ -8,13 +8,15 @@ interface CreateProjectRequest{
 
 type CreateProjectResponse = void
 
-
-export async function createProject({name, description, org} : CreateProjectRequest): Promise<CreateProjectResponse> {
-  const result = await api.post(`organizations/${org}/projects`, {
-    json:{
+export async function createProject({
+  name,
+  description,
+  org,
+}: CreateProjectRequest): Promise<CreateProjectResponse> {
+  await api.post(`organizations/${org}/projects`, {
+    json: {
       name,
-      description
-    }
+      description,
+    },
   })
-
 }

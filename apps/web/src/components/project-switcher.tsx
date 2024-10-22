@@ -1,5 +1,13 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+import { ChevronsUpDown, Loader2, PlusCircle } from 'lucide-react'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+
+import { getProjects } from '@/http/get-projects'
+
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +17,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { ChevronsUpDown, Loader, Loader2, PlusCircle } from 'lucide-react'
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import { getProjects } from '@/http/get-projects'
-import { useQuery } from '@tanstack/react-query'
 import { Skeleton } from './ui/skeleton'
 
 export function ProjectSwitcher() {
@@ -36,40 +38,36 @@ export function ProjectSwitcher() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex border p-2 lg:p-1 lg:border-none w-full lg:w-[192px] items-center gap-2 rounded text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground">
-        {
-          isLoading ? (
-            <>
-              <Skeleton className='size-4 shrink-0 rounded-full' />
-              <Skeleton className='h-4 w-full' />
-            </>
-          ) : (
-            <>
-                    {currentProject ? (
+      <DropdownMenuTrigger className="flex w-full items-center gap-2 rounded border p-2 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground lg:w-[192px] lg:border-none lg:p-1">
+        {isLoading ? (
           <>
-            <Avatar className=" size-4">
-              {currentProject.avatarUrl && (
-                <AvatarImage src={currentProject.avatarUrl} />
-              )}
-              <AvatarFallback />
-            </Avatar>
-            <span className="truncate text-left">{currentProject.name}</span>
+            <Skeleton className="size-4 shrink-0 rounded-full" />
+            <Skeleton className="h-4 w-full" />
           </>
         ) : (
-          <span className="text-muted-foreground">Select project</span>
+          <>
+            {currentProject ? (
+              <>
+                <Avatar className="size-4">
+                  {currentProject.avatarUrl && (
+                    <AvatarImage src={currentProject.avatarUrl} />
+                  )}
+                  <AvatarFallback />
+                </Avatar>
+                <span className="truncate text-left">
+                  {currentProject.name}
+                </span>
+              </>
+            ) : (
+              <span className="text-muted-foreground">Select project</span>
+            )}
+          </>
         )}
-            </>
-          )
-        }
-        {
-          isLoading ? (
-            <Loader2 className='ml-auto text-muted-foreground size-4 animate-spin'/>
-
-          ) : (
-            <ChevronsUpDown className="ml-auto size-4 text-muted-foreground shrink-0" />
-
-          )
-        }
+        {isLoading ? (
+          <Loader2 className="ml-auto size-4 animate-spin text-muted-foreground" />
+        ) : (
+          <ChevronsUpDown className="ml-auto size-4 shrink-0 text-muted-foreground" />
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
@@ -77,13 +75,13 @@ export function ProjectSwitcher() {
         sideOffset={12}
         className="w-[200px]"
       >
-        <DropdownMenuGroup className="space-y-2 pointer">
+        <DropdownMenuGroup className="pointer space-y-2">
           <DropdownMenuLabel>Projects</DropdownMenuLabel>
           {data &&
             data.projects.map((project) => {
               return (
-                <DropdownMenuItem key={project.id} asChild >
-                  <Link  href={`/org/${orgSlug}/project/${project.slug}`}>
+                <DropdownMenuItem key={project.id} asChild>
+                  <Link href={`/org/${orgSlug}/project/${project.slug}`}>
                     <Avatar className="mr-2 size-4">
                       {project.avatarUrl && (
                         <AvatarImage src={project.avatarUrl} />

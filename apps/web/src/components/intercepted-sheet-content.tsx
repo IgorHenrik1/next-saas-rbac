@@ -1,12 +1,14 @@
 'use client'
 
-import * as React from 'react'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { type VariantProps } from 'class-variance-authority'
 import { X } from 'lucide-react'
-import { SheetOverlay, SheetPortal, sheetVariants } from './ui/sheet'
-import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
+import * as React from 'react'
+
+import { cn } from '@/lib/utils'
+
+import { SheetOverlay, SheetPortal, sheetVariants } from './ui/sheet'
 
 interface InterceptedSheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
@@ -17,7 +19,7 @@ export const InterceptedSheetContent = React.forwardRef<
   InterceptedSheetContentProps
 >(({ side = 'right', className, children, ...props }, ref) => {
   const router = useRouter()
-  function onDismiss(){
+  function onDismiss() {
     router.back()
   }
   return (
@@ -31,7 +33,10 @@ export const InterceptedSheetContent = React.forwardRef<
         {...props}
       >
         {children}
-        <button onClick={onDismiss} className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+        <button
+          onClick={onDismiss}
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+        >
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </button>

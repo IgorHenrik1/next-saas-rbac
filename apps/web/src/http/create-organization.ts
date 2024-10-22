@@ -1,6 +1,6 @@
-import { api } from "./api-client"
+import { api } from './api-client'
 
-interface CreateOrganizationRequest{
+interface CreateOrganizationRequest {
   name: string
   domain: string | null
   shouldAttachUserByDomain: boolean
@@ -8,14 +8,16 @@ interface CreateOrganizationRequest{
 
 type CreateOrganizationResponse = void
 
-
-export async function createOrganization({name, domain, shouldAttachUserByDomain} : CreateOrganizationRequest): Promise<CreateOrganizationResponse> {
-  const result = await api.post('organizations', {
-    json:{
+export async function createOrganization({
+  name,
+  domain,
+  shouldAttachUserByDomain,
+}: CreateOrganizationRequest): Promise<CreateOrganizationResponse> {
+  await api.post('organizations', {
+    json: {
       name,
       domain,
-      shouldAttachUserByDomain
-    }
+      shouldAttachUserByDomain,
+    },
   })
-
 }

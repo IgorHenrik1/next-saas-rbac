@@ -1,10 +1,10 @@
-import { ability, getCurrentOrg } from '@/auth/auth'
-import { Header } from '@/components/header'
-import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
+
+import { ability, getCurrentOrg } from '@/auth/auth'
+import { Button } from '@/components/ui/button'
+
 import { ProjectList } from './project-list'
-import { redirect } from 'next/navigation'
 
 export default async function Projects() {
   const permissions = await ability()
@@ -26,10 +26,10 @@ export default async function Projects() {
       {permissions?.can('get', 'Project') ? (
         <ProjectList />
       ) : (
-        <p className='text-sm text-muted-foreground'>
+        <p className="text-sm text-muted-foreground">
           You are not allowed to see organization projects.
         </p>
-      ) }
+      )}
     </div>
   )
 }
